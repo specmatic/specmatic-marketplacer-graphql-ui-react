@@ -1,0 +1,23 @@
+request:
+  body: |
+    mutation { 
+      cartCreate(input: { attributes: {firstName: "John", surname: "Doe", phone: "1234567890" }}) {
+        cart {
+          id
+          firstName
+          surname
+          phone
+        } 
+      } 
+    }
+
+response:
+  {
+    "cart":
+      {
+        "id": "10",
+        "firstName": "John",
+        "surname": "Doe",
+        "phone": "1234567890",
+      },
+  }

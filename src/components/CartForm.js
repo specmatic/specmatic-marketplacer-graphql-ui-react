@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useMutation, useLazyQuery, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useMutation, useLazyQuery } from '@apollo/client/react';
 
 const getCartCreateMutation = gql`
   mutation CreateCart($input: CartCreateInput!) {
@@ -25,7 +26,7 @@ const getCartQuery = gql`
   }
 `;
 
-const CartForm = () => {
+export const CartForm = () => {
   const [firstName, setFirstName] = useState('John');
   const [surname, setSurname] = useState('Doe');
   const [phone, setPhone] = useState('1234567890');
@@ -215,5 +216,3 @@ const CartForm = () => {
     </div>
   );
 };
-
-export default CartForm;

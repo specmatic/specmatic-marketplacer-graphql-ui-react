@@ -3,20 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@apollo/client": "^3.10.4",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^15.0.6",
-    "@testing-library/user-event": "^13.5.0",
-    "axios": "^1.7.2",
-    "cross-env": "^7.0.3",
-    "express": "^4.19.2",
-    "graphql": "^16.8.2",
-    "graphql-http": "^1.22.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-scripts": "5.0.1",
-    "react-toastify": "^10.0.5",
-    "web-vitals": "^2.1.4"
+    "@apollo/client": "^4.0.7",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "axios": "^1.12.2",
+    "cross-env": "^10.1.0",
+    "express": "^5.1.0",
+    "graphql": "^16.11.0",
+    "graphql-http": "^1.22.4",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-scripts": "^5.0.1",
+    "react-toastify": "^11.0.5",
+    "web-vitals": "^5.1.0"
   },
   "specmatic": {
     "logLevel": "debug"
@@ -49,10 +49,9 @@
     ]
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.19",
-    "postcss": "^8.4.38",
-    "specmatic": "1.3.37",
-    "specmatic-beta": "github:znsio/specmatic-node-beta#3f5e575",
-    "tailwindcss": "^3.4.3"
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.15",
+    "testcontainers": "^11.7.1"
   }
 }

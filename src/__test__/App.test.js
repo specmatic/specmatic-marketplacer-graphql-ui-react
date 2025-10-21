@@ -1,20 +1,32 @@
-import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import "@testing-library/jest-dom/extend-expect";
-import { ApolloProvider } from "@apollo/client";
+import { GenericContainer, Wait } from "testcontainers";
+import { ApolloProvider } from "@apollo/client/react";
 import client from "../apolloClient";
-import CartForm from "../components/CartForm";
-import { startGraphQlStub, stopGraphQlStub } from "specmatic";
+import { CartForm } from "../components/CartForm.js";
 
 const fs = require('fs');
 const path = require('path');
 
 global.setImmediate = global.setImmediate || ((fn, ...args) => global.setTimeout(fn, 0, ...args));
-let stub;
+/*** @type {import("testcontainers").StartedTestContainer}*/
+let graphQLContainer;
 
 beforeAll(async () => {
-  stub = await startGraphQlStub("127.0.0.1", 8080, "./test_data");
-}, 5000);
+  graphQLContainer = await new GenericContainer("specmatic/specmatic-graphql")
+    .withBindMounts([
+      { source: path.resolve("specmatic.yml"), target: "/usr/src/app/specmatic.yml" },
+      { source: path.resolve("test_data"), target: "/usr/src/app/examples" }
+    ])
+    .withCommand(["virtualize", "--port", "8080", "--examples", "/usr/src/app/examples"])
+    .withExposedPorts({ host: 8080, container: 8080 })
+    .withLogConsumer(stream => {
+      stream.on("data", process.stdout.write.bind(process.stdout));
+      stream.on("err", process.stderr.write.bind(process.stderr));
+      stream.on("end", () => process.stdout.write("GraphQL mock stopped"));
+    })
+    .withWaitStrategy(Wait.forLogMessage(/.*Stub server is running.*/i, 1))
+    .start();
+}, 20000);
 
 jest.mock("react-toastify", () => ({
   toast: {
@@ -72,17 +84,14 @@ describe("App component tests", () => {
 });
 
 afterAll(async () => {
-  await stopGraphQlStub(stub);
-}, 5000);
+  await graphQLContainer?.stop();
+}, 20000);
 
 function readCartValues() {
-  console.log(__dirname);
-  console.log(path.resolve(__dirname, '../../test_data/createCart.md'))
-  const data = fs.readFileSync(path.resolve(__dirname, '../../test_data/createCart.md'), 'utf-8');
+  const data = fs.readFileSync(path.resolve(__dirname, '../../test_data/createCart.yaml'), 'utf-8');
   const firstNameMatch = data.match(/firstName: "([^"]+)"/);
   const surnameMatch = data.match(/surname: "([^"]+)"/);
   const phoneMatch = data.match(/phone: "([^"]+)"/);
-
   return {
     firstName: firstNameMatch ? firstNameMatch[1] : '',
     surname: surnameMatch ? surnameMatch[1] : '',
