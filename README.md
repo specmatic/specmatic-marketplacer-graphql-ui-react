@@ -10,10 +10,16 @@ Install the node packages for this project.
 npm install
 ```
 
-## Start up the Specmatic stub
+## Run contract tests
 
 ```shell
-npm run specmatic:stub
+npm run test
+````
+
+## Start up the Specmatic mock
+
+```shell
+npm run specmatic:mock
 ```
 
 ## Start the application
@@ -32,4 +38,4 @@ npm run graphiql
 
 You can now open [GraphiQL](http://localhost:4000/graphiql) in your browser and test out some GraphQL queries.
 
-This instance of GraphiQL has been setup to query the Specmatic stub instance running on http://localhost:4000/graphql.
+This instance of GraphiQL has been setup to query the Specmatic stub instance running on http://localhost:8080/graphql.

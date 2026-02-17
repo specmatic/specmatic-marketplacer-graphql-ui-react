@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useMutation, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useMutation } from '@apollo/client/react';
 
 const ProductForm = () => {
   const [name, setName] = useState('');
@@ -119,4 +120,3 @@ const ProductForm = () => {
 };
 
 export default ProductForm;
-

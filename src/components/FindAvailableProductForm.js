@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useLazyQuery, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client/react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -111,4 +112,3 @@ const FindAvailableProductForm = () => {
 };
 
 export default FindAvailableProductForm;
-
