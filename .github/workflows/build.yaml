@@ -9,7 +9,7 @@ on:
 
 jobs:
   test:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     env:
       CTRF_REPORT_PATH: './build/reports/specmatic/stub/ctrf/*.json'
     steps:
