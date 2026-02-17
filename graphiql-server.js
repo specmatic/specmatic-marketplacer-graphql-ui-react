@@ -9,35 +9,28 @@ const serveGraphiQL = (res) => {
     <html>
     <head>
       <title>GraphiQL</title>
-      <link rel="stylesheet" href="https://unpkg.com/graphiql/graphiql.min.css" />
+      <link rel="stylesheet" href="https://unpkg.com/graphiql@3.7.2/graphiql.min.css" />
     </head>
     <body style="margin: 0;">
       <div id="graphiql" style="height: 100vh;"></div>
       <script
         crossorigin
-        src="https://unpkg.com/react/umd/react.production.min.js"
+        src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"
       ></script>
       <script
         crossorigin
-        src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"
+        src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"
       ></script>
       <script
         crossorigin
-        src="https://unpkg.com/graphiql/graphiql.min.js"
+        src="https://unpkg.com/graphiql@3.7.2/graphiql.min.js"
       ></script>
       <script>
-        const graphQLFetcher = graphQLParams =>
-          fetch('http://localhost:8080/graphql', {
-            method: 'post',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(graphQLParams),
-          })
-          .then(response => response.json())
-          .catch(() => response.text());
-
-        ReactDOM.render(
-          React.createElement(GraphiQL, { fetcher: graphQLFetcher }),
-          document.getElementById('graphiql'),
+        const root = ReactDOM.createRoot(document.getElementById('graphiql'));
+        root.render(
+          React.createElement(GraphiQL, {
+            fetcher: GraphiQL.createFetcher({ url: 'http://localhost:8080/graphql' }),
+          }),
         );
       </script>
     </body>
