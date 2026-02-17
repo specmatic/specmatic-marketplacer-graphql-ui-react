@@ -11,7 +11,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      CTRF_REPORT_PATH: './build/reports/specmatic/stub/ctrf/*.json'
+      CTRF_REPORT_PATH: './build/reports/specmatic/graphql/stub/ctrf/*.json'
     steps:
       - uses: actions/checkout@v6
 
