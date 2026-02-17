@@ -27,7 +27,7 @@
     "test": "react-scripts test --coverage --detectOpenHandles --forceExit --transformIgnorePatterns \"node_modules/(?!axios)/\"",
     "eject": "react-scripts eject",
     "graphiql": "node graphiql-server.js",
-    "specmatic:stub": "node -e \"require('child_process').execSync('docker run --rm -v ' + process.cwd() + ':/usr/src/app -p 8080:8080 specmatic/specmatic-graphql virtualize --port 8080 --examples=test_data', {stdio: 'inherit'})\"",
+    "specmatic:stub": "node -e \"require('child_process').execSync('docker run --rm -v ' + process.cwd() + ':/usr/src/app specmatic/enterprise', {stdio: 'inherit'})\"",
     "test-ci": "cross-env SPECMATIC_LOG_LEVEL=debug DEBUG=specmatic-order-graphql-ui-react:* npm run test"
   },
   "eslintConfig": {

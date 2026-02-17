@@ -1,0 +1,31 @@
+version: 3
+dependencies:
+  services:
+    - service:
+        $ref: '#/components/services/marketPlacerGraphqlService'
+        runOptions:
+          $ref: '#/components/runOptions/marketPlacerGraphqlServiceMock'
+        data:
+          examples:
+            - directories:
+                - ./test_data
+components:
+  sources:
+    specmaticOrderContracts:
+      git:
+        url: 'https://github.com/specmatic/specmatic-order-contracts.git'
+  services:
+    marketPlacerGraphqlService:
+      description: Product Search BFF V4
+      definitions:
+        - definition:
+            source:
+              $ref: "#/components/sources/specmaticOrderContracts"
+            specs:
+              - com/marketplacer/marketplacer.graphqls
+  runOptions:
+    marketPlacerGraphqlServiceMock:
+      graphqlsdl:
+        type: mock
+        host: localhost
+        port: 8080

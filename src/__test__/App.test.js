@@ -12,20 +12,21 @@ global.setImmediate = global.setImmediate || ((fn, ...args) => global.setTimeout
 let graphQLContainer;
 
 beforeAll(async () => {
-  graphQLContainer = await new GenericContainer("specmatic/specmatic-graphql")
-    .withBindMounts([
-      { source: path.resolve("specmatic.yml"), target: "/usr/src/app/specmatic.yml" },
-      { source: path.resolve("test_data"), target: "/usr/src/app/examples" }
-    ])
-    .withCommand(["virtualize", "--port", "8080", "--examples", "/usr/src/app/examples"])
-    .withExposedPorts({ host: 8080, container: 8080 })
-    .withLogConsumer(stream => {
-      stream.on("data", process.stdout.write.bind(process.stdout));
-      stream.on("err", process.stderr.write.bind(process.stderr));
-      stream.on("end", () => process.stdout.write("GraphQL mock stopped"));
-    })
-    .withWaitStrategy(Wait.forLogMessage(/.*Stub server is running.*/i, 1))
-    .start();
+  graphQLContainer = await new GenericContainer("specmatic/enterprise")
+      .withBindMounts([
+        {source: path.resolve("specmatic.yaml"), target: "/usr/src/app/specmatic.yaml"},
+        {source: path.resolve("test_data"), target: "/usr/src/app/test_data"},
+        {source: path.resolve("build/reports/specmatic"), target: "/usr/src/app/build/reports/specmatic"},
+      ])
+      .withNetworkMode('host')
+      .withCommand(["mock"])
+      .withLogConsumer(stream => {
+        stream.on("data", process.stdout.write.bind(process.stdout));
+        stream.on("err", process.stderr.write.bind(process.stderr));
+        stream.on("end", () => process.stdout.write("GraphQL mock stopped"));
+      })
+      .withWaitStrategy(Wait.forLogMessage(/Stub server is running/i))
+      .start();
 }, 20000);
 
 jest.mock("react-toastify", () => ({
@@ -84,7 +85,12 @@ describe("App component tests", () => {
 });
 
 afterAll(async () => {
-  await graphQLContainer?.stop();
+  console.log("Stopping GraphQL Mock server");
+  await graphQLContainer?.stop({
+    timeout: 60_000,   // give Specmatic time to generate reports
+    remove: true
+  });
+  console.log("GraphQL Mock has stopped");
 }, 20000);
 
 function readCartValues() {
